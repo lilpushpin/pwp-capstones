@@ -127,7 +127,7 @@ class TomeRater(object):
             self.books[book] += 1
             book.add_rating(rating)
         else:
-            print("No user exists with email " + email)
+            return "No user exists with email " + email
 
     def add_user(self, name, email, user_books = None):
         another_user = User(name, email)
@@ -163,3 +163,21 @@ class TomeRater(object):
                 highest_rated = average
                 highest_rater = user
         return highest_rater
+
+    def get_user_average_rating(self, email):
+        user = self.users.get(email, None)
+        if user:
+            return user.get_average_rating()
+        return "No such user"
+
+    def get_most_read_book(self):
+        max_reads = float("-inf")
+        most_read = None
+
+        for book in self.books:
+            num_reads = self.books[book]
+            if num_reads > max_reads:
+                max_reads = num_reads
+                most_read = book
+
+        return most_read
